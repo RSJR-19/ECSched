@@ -1,6 +1,7 @@
 let studentName = "";
 let studentYearLevel = "";
 let studentCollege = "";
+let studentCourse = "";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js';
 
@@ -23,17 +24,17 @@ async function extractText(){ //Function triggered when Extract me button is cli
             console.log("received it please wait........")
             const currPage = await pdfFile.getPage(i);
             const textContent = await currPage.getTextContent();
-            console.log(textContent);
             studentName = getStudentName(textContent); //gets the name of the student;
+            studentCourse = getStudentCourse(textContent); //gets the course of the student;
             studentYearLevel = getStudentYearLevel(textContent); //gets the section of the student;
             studentCollege = getStudentCollege(textContent); //gets the college of the student;
 
-            console.log(studentName)
-            console.log(studentYearLevel)
-            console.log(studentCollege)
+            console.log(studentName);
+            console.log(studentYearLevel);
+            console.log(studentCollege);
+            console.log(studentCourse);
 
-
-
+            cleanTextContent(textContent);
         }
     }
     catch (err){
@@ -60,7 +61,25 @@ function getStudentName(textContent){ //function for extracting student name. re
     }
 }
 
-function getStudentYearLevel(textContent){
+function getStudentCourse(textContent){ //function for getting student course;
+    try{
+    let courseLine = textContent.items[11].str;
+    if (!courseLine.includes("COURSE : ")){
+        throw new Error("detailsError - Course");
+    }
+    courseLine = courseLine.replace("COURSE : ", "");
+    courseLine = courseLine.trim();
+    return courseLine;
+    }
+    catch(err){
+        console.error(err);
+        alert("Some details cannot be found");
+        return false;
+    }
+
+}
+
+function getStudentYearLevel(textContent){ // function for extracting student Year level;
     try{
         let yearLine = textContent.items[15].str;
         if(!yearLine.includes("YEAR LEVEL : ")){
@@ -76,7 +95,7 @@ function getStudentYearLevel(textContent){
     }
 }
 
-function getStudentCollege(textContent){
+function getStudentCollege(textContent){ //function for getting student college;
     try{
         let collegeLine = textContent.items[14].str;
         if(!collegeLine.includes("COLLEGE : ")){
@@ -91,6 +110,16 @@ function getStudentCollege(textContent){
         return false;
     }
 
+}
+
+function cleanTextContent(textContent){
+    textContent = textContent.items;
+    console.log(textContent);
+    console.log(textContent.length);
+    textContent = textContent.filter(values=>{
+        return values.str.trim().length > 0;
+    });
+    console.log(textContent);
 }
 
 async function extractTor() {
