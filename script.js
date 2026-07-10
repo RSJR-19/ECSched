@@ -34,7 +34,9 @@ async function extractText(){ //Function triggered when Extract me button is cli
             console.log(studentCollege);
             console.log(studentCourse);
 
-            cleanTextContent(textContent);
+            let textContentCleaned = cleanTextContent(textContent); //array of objects per line, removed ung spaces/empty lang.
+
+            console.log(textContentCleaned);
         }
     }
     catch (err){
@@ -114,12 +116,10 @@ function getStudentCollege(textContent){ //function for getting student college;
 
 function cleanTextContent(textContent){
     textContent = textContent.items;
-    console.log(textContent);
-    console.log(textContent.length);
     textContent = textContent.filter(values=>{
         return values.str.trim().length > 0;
     });
-    console.log(textContent);
+    return textContent;
 }
 
 async function extractTor() {
