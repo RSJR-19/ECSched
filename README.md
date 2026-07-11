@@ -11,7 +11,7 @@ July 10, 2026
 July 11, 2026
 Extracted:
 > Cleaned Schedule
-
+> now schwedule or courses per day is processed and sorted from earliest until the end
 ================================================================
 
 Improvements:

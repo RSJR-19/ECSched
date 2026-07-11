@@ -44,7 +44,10 @@ async function extractText(){ //Function triggered when Extract me button is cli
             
             let weekdays = groupByDay(processedCourseObjects); //returns array grouped by days of the week, [Course instance, time, room];
 
-            checkSchedToday(weekdays);
+            let schedToday = checkSchedToday(weekdays);
+            //returns dict containing starting miliseconds as keys and courses object as values.
+
+            console.log(schedToday);
 
 
         }
@@ -289,8 +292,7 @@ function checkSchedToday(sched){
 
     const trackerCourse = {};
 
-
-
+    try{
     schedToday.forEach(sched =>{
         let course = sched[0];
         let [startTime, endTime] = sched[1].split("-");
@@ -303,19 +305,22 @@ function checkSchedToday(sched){
         endTimeMilliseconds.push(endTime);
 
         trackerCourse[startTime] = course;
-        console.log(course)  
     });
 
     startTimeMilliseconds.sort();
     endTimeMilliseconds.sort();
 
-    console.log(startTimeMilliseconds);
-    console.log(endTimeMilliseconds);
-
     //for testing
     startTimeMilliseconds.forEach(course =>{
         console.log(trackerCourse[course]);
-    })
+    });
+}
+    catch(err){
+        console.error(err);
+        return;
+    }
+
+    return trackerCourse;
 }
 
 
@@ -338,6 +343,5 @@ function parseToMilliseconds(dateTime){
 
     const joined = `${month} ${day}, ${year} ${dateTime}`;
 
-    
     return Date.parse(joined);
 }
