@@ -247,7 +247,7 @@ function processCourseObjects(schedule){
 }
 
 function groupByDay(courses){
-    const DAYS = {
+    const WEEK = {
         'MON': [],
         'TUE' : [],
         'WED' : [],
@@ -263,9 +263,15 @@ function groupByDay(courses){
             courseSched.forEach(schedule =>{
                 let [day, time, room] = schedule.split("|");
 
+                day = day.trim();
+                time = time.trim();
+                room = room.trim();
+
                 console.log(day)
                 console.log(time)
                 console.log(room)
+
+                WEEK[day].push([course, time, room]);
             })
                 
 
@@ -275,6 +281,6 @@ function groupByDay(courses){
     catch(err){
         console.error(err);
     }
+
+    console.log(WEEK)
 }
-
-
