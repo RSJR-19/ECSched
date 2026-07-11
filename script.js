@@ -2,7 +2,7 @@ let studentName = "";
 let studentYearLevel = "";
 let studentCollege = "";
 let studentCourse = "";
-let extractredSched = '';
+
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js';
 
@@ -35,16 +35,19 @@ async function extractText(){ //Function triggered when Extract me button is cli
             
             let textContentCleaned = cleanTextContent(textContent); //array of objects per line, removed ung spaces/empty lang.
 
-            extractedSched = extractSchedule(textContentCleaned);// removed unnecessary parts/kept schedule details.
+            let extractedSched = extractSchedule(textContentCleaned);// removed unnecessary parts/kept schedule details.
 
             console.log(studentName)
             console.log(studentCourse)
             console.log(studentYearLevel)
             console.log(studentCollege)
 
-            console.log(extractedSched);
 
-            groupSchedule(extractedSched);
+            let groupedSched = groupSchedule(extractedSched); //returns array ng CourseNames and Courses grouped;
+            let processedCourseObjects = processCourseObjects(groupedSched); //returns array of courses as objects
+            //name = name of course, code = course code, schedules = array of course schedules
+            
+            groupByDay(processedCourseObjects);
 
         }
     }
@@ -161,6 +164,7 @@ function groupSchedule(extractedSched){
     const UNITS = ["1.00", "2.00", "3.00", '4.00', '5.00', '6.00', '7.00', '8.00', '9.00', '10.00'];
     const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
     const schedule = {};
+    const courseNames = [];
     let unitsFlag = true;
     let courseCodeAndNameFlag = false;
     let scheduleFlag = false;
@@ -178,8 +182,9 @@ function groupSchedule(extractedSched){
             }
 
             if (courseCodeAndNameFlag){
-                schedule[currItem] = [];
+                schedule[currItem] = "";
                 currCourse = currItem //change later to course code only
+                courseNames.push(currCourse);
                 courseCodeAndNameFlag = false;
                 continue;
             }
@@ -189,7 +194,7 @@ function groupSchedule(extractedSched){
                 unitsFlag = true;
 
                 if (scheduleText.trim()){
-                    schedule[currCourse].push(scheduleText.trim());
+                    schedule[currCourse] = scheduleText.trim();
                 }
 
                 scheduleText = "";
@@ -213,8 +218,63 @@ function groupSchedule(extractedSched){
     catch(err){
         console.error(err);
     }
-    console.log(schedule)
+    return [courseNames, schedule];
 }
 
+function processCourseObjects(schedule){
+    const COURSES = [];
+    const courseNames = schedule[0];
+    const mainSchedule = schedule[1];
+    class Course{
+        constructor(name, code, schedules){
+            this.name = name;
+            this.code = code;
+            this.schedules = schedules;
+        }
+    }
+    try{
+        courseNames.forEach(course =>{
+            const [code, name] = course.split("-");
+            let schedules = mainSchedule[course].split(",");
+            COURSES.push(new Course(name, code, schedules));
+        });
+
+    }
+    catch(err){
+        console.error(err);
+    }
+    return COURSES;
+}
+
+function groupByDay(courses){
+    const DAYS = {
+        'MON': [],
+        'TUE' : [],
+        'WED' : [],
+        'THU' : [],
+        'FRI' : [],
+        'SAT' : [],
+        'SUN': []
+    }
+    try{
+        courses.forEach(course=>{
+            let courseSched = course.schedules;
+
+            courseSched.forEach(schedule =>{
+                let [day, time, room] = schedule.split("|");
+
+                console.log(day)
+                console.log(time)
+                console.log(room)
+            })
+                
+
+        })
+
+    }
+    catch(err){
+        console.error(err);
+    }
+}
 
 
