@@ -37,17 +37,15 @@ async function extractText(){ //Function triggered when Extract me button is cli
 
             let extractedSched = extractSchedule(textContentCleaned);// removed unnecessary parts/kept schedule details.
 
-            console.log(studentName)
-            console.log(studentCourse)
-            console.log(studentYearLevel)
-            console.log(studentCollege)
-
-
             let groupedSched = groupSchedule(extractedSched); //returns array ng CourseNames and Courses grouped;
+
             let processedCourseObjects = processCourseObjects(groupedSched); //returns array of courses as objects
             //name = name of course, code = course code, schedules = array of course schedules
             
-            groupByDay(processedCourseObjects);
+            let weekdays = groupByDay(processedCourseObjects); //returns array grouped by days of the week, [Course instance, time, room];
+
+            checkSchedToday(weekdays);
+
 
         }
     }
@@ -247,6 +245,7 @@ function processCourseObjects(schedule){
 }
 
 function groupByDay(courses){
+
     const WEEK = {
         'MON': [],
         'TUE' : [],
@@ -267,14 +266,8 @@ function groupByDay(courses){
                 time = time.trim();
                 room = room.trim();
 
-                console.log(day)
-                console.log(time)
-                console.log(room)
-
                 WEEK[day].push([course, time, room]);
             })
-                
-
         })
 
     }
@@ -282,5 +275,16 @@ function groupByDay(courses){
         console.error(err);
     }
 
-    console.log(WEEK)
+    return WEEK;
+}
+
+function checkSchedToday(sched){
+    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+    const dayToday = days[new Date().getDay()];
+
+    const schedToday = sched[dayToday];
+    
+
+
 }

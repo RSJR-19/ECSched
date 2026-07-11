@@ -1,8 +1,5 @@
-names = {
-    'age' : [],
-    'shape':[],
-}
+const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
-names.age.push(3)
+const dayToday = days[new Date().getDay()];
 
-console.log(names.age)
+console.log(dayToday)
