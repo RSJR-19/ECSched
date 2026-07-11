@@ -1,4 +1,8 @@
-x = "renan"
-x += " sumbad"
+names = {
+    'age' : [],
+    'shape':[],
+}
 
-console.log(x)
+names.age.push(3)
+
+console.log(names.age)

@@ -169,17 +169,30 @@ function groupSchedule(extractedSched){
     try{
         for (let i = 0; i < extractedSched.length; i++){
             let currItem = extractedSched[i].str;
-            let currItemSplitted = currItem.split();
+            let currItemSplitted = currItem.split(" ");
             
             if(unitsFlag){
                 courseCodeAndNameFlag = true;
                 unitsFlag = false;
                 continue;
             }
+
             if (courseCodeAndNameFlag){
                 schedule[currItem] = [];
                 currCourse = currItem //change later to course code only
                 courseCodeAndNameFlag = false;
+                continue;
+            }
+
+            if (currItemSplitted.some(word => UNITS.includes(word))){ //checks if curr contains UNITS;
+                scheduleFlag = false;
+                unitsFlag = true;
+
+                if (scheduleText.trim()){
+                    schedule[currCourse].push(scheduleText.trim());
+                }
+
+                scheduleText = "";
                 continue;
             }
             
@@ -194,19 +207,13 @@ function groupSchedule(extractedSched){
                 continue;
             }
 
-            if (currItemSplitted.some(word => UNITS.includes(word))){ //checks if curr contains UNITS;
-                scheduleFlag = false;
-                unitsFlag = true;
-
-                schedule[currCourse].push(scheduleText);
-                scheduleText = "";
-            }
         }
-        console.log(schedule)
+        
     }
     catch(err){
         console.error(err);
     }
+    console.log(schedule)
 }
 
 
