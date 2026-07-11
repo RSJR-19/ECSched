@@ -1,3 +1,4 @@
-x = "renan sumbad"
+x = "renan"
+x += " sumbad"
 
-console.log(x.split(","))
+console.log(x)

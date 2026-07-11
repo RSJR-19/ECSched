@@ -41,7 +41,7 @@ async function extractText(){ //Function triggered when Extract me button is cli
             console.log(studentCourse)
             console.log(studentYearLevel)
             console.log(studentCollege)
-            console.log(textContentCleaned)
+
             console.log(extractedSched);
 
             groupSchedule(extractedSched);
@@ -158,7 +158,55 @@ function extractSchedule(textContentCleaned){
 }
 
 function groupSchedule(extractedSched){
+    const UNITS = ["1.00", "2.00", "3.00", '4.00', '5.00', '6.00', '7.00', '8.00', '9.00', '10.00'];
+    const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+    const schedule = {};
+    let unitsFlag = true;
+    let courseCodeAndNameFlag = false;
+    let scheduleFlag = false;
+    let scheduleText = "";
+    let currCourse = "";
+    try{
+        for (let i = 0; i < extractedSched.length; i++){
+            let currItem = extractedSched[i].str;
+            let currItemSplitted = currItem.split();
+            
+            if(unitsFlag){
+                courseCodeAndNameFlag = true;
+                unitsFlag = false;
+                continue;
+            }
+            if (courseCodeAndNameFlag){
+                schedule[currItem] = [];
+                currCourse = currItem //change later to course code only
+                courseCodeAndNameFlag = false;
+                continue;
+            }
+            
+            if (scheduleFlag){
+                scheduleText  += currItem;
+                continue;
+            }
 
+            if (currItemSplitted.some(word => DAYS.includes(word))){//checks if yung curr contains DAYS
+                scheduleText += currItem;
+                scheduleFlag = true;
+                continue;
+            }
+
+            if (currItemSplitted.some(word => UNITS.includes(word))){ //checks if curr contains UNITS;
+                scheduleFlag = false;
+                unitsFlag = true;
+
+                schedule[currCourse].push(scheduleText);
+                scheduleText = "";
+            }
+        }
+        console.log(schedule)
+    }
+    catch(err){
+        console.error(err);
+    }
 }
 
 
