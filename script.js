@@ -282,9 +282,62 @@ function checkSchedToday(sched){
     const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
     const dayToday = days[new Date().getDay()];
-
     const schedToday = sched[dayToday];
+
+    const startTimeMilliseconds = [];
+    const endTimeMilliseconds = [];
+
+    const trackerCourse = {};
+
+
+
+    schedToday.forEach(sched =>{
+        let course = sched[0];
+        let [startTime, endTime] = sched[1].split("-");
+
+        startTime = parseToMilliseconds(startTime);
+        endTime = parseToMilliseconds(endTime);
+
+        startTimeMilliseconds.push(startTime);
+
+        endTimeMilliseconds.push(endTime);
+
+        trackerCourse[startTime] = course;
+        console.log(course)  
+    });
+
+    startTimeMilliseconds.sort();
+    endTimeMilliseconds.sort();
+
+    console.log(startTimeMilliseconds);
+    console.log(endTimeMilliseconds);
+
+    //for testing
+    startTimeMilliseconds.forEach(course =>{
+        console.log(trackerCourse[course]);
+    })
+}
+
+
+function getMillisecondsNow(){
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+
+    return Date.parse(`${month} ${day}, ${year} ${hour}:${minutes}`);
+}
+
+function parseToMilliseconds(dateTime){
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const joined = `${month} ${day}, ${year} ${dateTime}`;
+
     
-
-
+    return Date.parse(joined);
 }
