@@ -45,9 +45,11 @@ async function extractText(){ //Function triggered when Extract me button is cli
             let weekdays = groupByDay(processedCourseObjects); //returns array grouped by days of the week, [Course instance, time, room];
 
             let schedToday = checkSchedToday(weekdays);
-            //returns dict containing starting miliseconds as keys and courses object as values.
+            //[0]returns dict containing starting miliseconds as keys and courses object as values.
+            //[1] array ng mga startTime values naka sorted na
+            //[2] array ng mga endTime values naka sorted na
 
-            console.log(schedToday);
+            getSubjectNow(schedToday)
 
 
         }
@@ -284,7 +286,8 @@ function groupByDay(courses){
 function checkSchedToday(sched){
     const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
-    const dayToday = days[new Date().getDay()];
+    const dayToday = days[2];//ORIGINAL!!: days[new Date().getDay()];// FOR TESTING ONLY CHANGE BACK LATER!!!!!!
+
     const schedToday = sched[dayToday];
 
     const startTimeMilliseconds = [];
@@ -310,17 +313,13 @@ function checkSchedToday(sched){
     startTimeMilliseconds.sort();
     endTimeMilliseconds.sort();
 
-    //for testing
-    startTimeMilliseconds.forEach(course =>{
-        console.log(trackerCourse[course]);
-    });
 }
     catch(err){
         console.error(err);
         return;
     }
-
-    return trackerCourse;
+    
+    return [trackerCourse, startTimeMilliseconds,endTimeMilliseconds];
 }
 
 
@@ -344,4 +343,36 @@ function parseToMilliseconds(dateTime){
     const joined = `${month} ${day}, ${year} ${dateTime}`;
 
     return Date.parse(joined);
+}
+
+function getSubjectNow(schedArr){
+
+    let [schedToday, startTimeMilliseconds, endTimeMilliseconds] = schedArr;
+
+    console.log(schedToday)
+
+    let timeNow = getMillisecondsNow();
+
+    for(let i = 0; i < startTimeMilliseconds.length; i++){
+        if (timeNow >= startTimeMilliseconds[i]){
+            if (timeNow <= endTimeMilliseconds[i]){
+                console.log(`${schedToday[startTimeMilliseconds[i]].name} happening now.`)
+                break;
+            }
+            else{
+                if (i === (startTimeMilliseconds.length)-1){
+                    console.log("No more classes today!")
+                    break;
+                }
+            }
+
+        }
+        else{
+            if (i > 0){
+                console.log("Break time!");
+                break;
+            }
+        }
+    }
+
 }
