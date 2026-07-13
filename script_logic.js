@@ -7,6 +7,10 @@ let studentCourse = "";
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js';
 
 //# NO TO AI SLOP 😝;
+//# NO TO AI SLOP 😝;
+//# NO TO AI SLOP 😝;
+//# NO TO AI SLOP 😝;
+//# NO TO AI SLOP 😝;
 
 async function extractText(){ //Function triggered when Extract me button is clicked, mainly for extracting schedule details from pdf.
     const fileInput = document.getElementById('fileInput');
@@ -401,3 +405,12 @@ function getSubjectNow(schedArr){
     }
 
 }
+
+function change(){
+    const openingScreen = document.getElementById('openingScreen');
+
+    openingScreen.classList.toggle('color-change');
+}
+
+
+
