@@ -8,7 +8,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dis
 
 //# NO TO AI SLOP 😝;
 
-async function extractText(){ //Function triggered when Extract me button is clicked, mainly for extracting text in pdf.
+async function extractText(){ //Function triggered when Extract me button is clicked, mainly for extracting schedule details from pdf.
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
 
@@ -24,9 +24,12 @@ async function extractText(){ //Function triggered when Extract me button is cli
 
         for (let i= 1; i <= pdfFile.numPages; i++){
             console.log("received it please wait, processing........")
+
             const currPage = await pdfFile.getPage(i);
             const textContent = await currPage.getTextContent();
+
             console.log("Data successfully fetched.");
+
             studentName = getStudentName(textContent); //gets the name of the student;
             studentCourse = getStudentCourse(textContent); //gets the course of the student;
             studentYearLevel = getStudentYearLevel(textContent); //gets the section of the student;
@@ -37,23 +40,7 @@ async function extractText(){ //Function triggered when Extract me button is cli
 
             let extractedSched = extractSchedule(textContentCleaned);// removed unnecessary parts/kept schedule details.
 
-            let groupedSched = groupSchedule(extractedSched); //returns array ng CourseNames and Courses grouped;
-
-            let processedCourseObjects = processCourseObjects(groupedSched); //returns array of courses as objects
-            //name = name of course, code = course code, schedules = array of course schedules
-            
-            let weekdays = groupByDay(processedCourseObjects); //returns array grouped by days of the week, [Course instance, time, room];
-
-            let schedToday = checkSchedToday(weekdays);
-            //[0]returns dict containing starting miliseconds as keys and courses object as values.
-            //[1] array ng mga startTime values naka sorted na
-            //[2] array ng mga endTime values naka sorted na
-
-            let currentState = getSubjectNow(schedToday); //returns course object if there's an ongoing class. returns 'dayAlreadyDone' if all classes already done. returns 'breakTime' if during breakTime/ free time. returns 'dayAboutToStart' if day only about to start. returns 'noClasses' if walang pasok.
-
-            
-
-
+            getScheduleDetails(extractedSched); //throws the cleaned schedule to getScheduleDetails to extract courses and timeline.
         }
     }
     catch (err){
@@ -62,6 +49,30 @@ async function extractText(){ //Function triggered when Extract me button is cli
         alert("Invalid EAF/PDF selected!");
         return;
 
+    }
+}
+
+function getScheduleDetails(cleanedSchedule){
+    try{
+        let groupedSched = groupSchedule(cleanedSchedule); //returns array ng CourseNames and Courses grouped;
+
+        let processedCourseObjects = processCourseObjects(groupedSched); //returns array of courses as objects
+        //name = name of course, code = course code, schedules = array of course schedules
+        
+        let weekdays = groupByDay(processedCourseObjects); //returns array grouped by days of the week, [Course instance, time, room];
+
+        let schedToday = checkSchedToday(weekdays);
+        //[0]returns dict containing starting miliseconds as keys and courses object as values.
+        //[1] array ng mga startTime values naka sorted na
+        //[2] array ng mga endTime values naka sorted na
+
+        let currentState = getSubjectNow(schedToday); //returns course object if there's an ongoing class. returns 'dayAlreadyDone' if all classes already done. returns 'breakTime' if during breakTime/ free time. returns 'dayAboutToStart' if day only about to start. returns 'noClasses' if walang pasok.
+
+    }
+    catch(err){
+        console.log("something's wrong - I can feel it.");
+        console.error(err);
+        return;
     }
 }
 
@@ -351,7 +362,7 @@ function getSubjectNow(schedArr){
 
     let [schedToday, startTimeMilliseconds, endTimeMilliseconds] = schedArr;
 
-    let timeNow = Date.parse("July 13, 2026 6:59 AM"); //ORIGINAL: CHANGE LATER!!! getMillisecondsNow();
+    let timeNow = Date.parse("July 13, 2026 7:01 AM"); //ORIGINAL: CHANGE LATER!!! getMillisecondsNow();
 
     if(startTimeMilliseconds.length === 0){
         console.log("No classes today!")
