@@ -49,7 +49,9 @@ async function extractText(){ //Function triggered when Extract me button is cli
             //[1] array ng mga startTime values naka sorted na
             //[2] array ng mga endTime values naka sorted na
 
-            getSubjectNow(schedToday)
+            let currentState = getSubjectNow(schedToday); //returns course object if there's an ongoing class. returns 'dayAlreadyDone' if all classes already done. returns 'breakTime' if during breakTime/ free time. returns 'dayAboutToStart' if day only about to start. returns 'noClasses' if walang pasok.
+
+            
 
 
         }
@@ -334,7 +336,7 @@ function getMillisecondsNow(){
     return Date.parse(`${month} ${day}, ${year} ${hour}:${minutes}`);
 }
 
-function parseToMilliseconds(dateTime){
+function parseToMilliseconds(dateTime){ //dateTime : time nung sched (example: 10:00 AM)
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -349,20 +351,26 @@ function getSubjectNow(schedArr){
 
     let [schedToday, startTimeMilliseconds, endTimeMilliseconds] = schedArr;
 
-    console.log(schedToday)
+    let timeNow = Date.parse("July 13, 2026 6:59 AM"); //ORIGINAL: CHANGE LATER!!! getMillisecondsNow();
 
-    let timeNow = getMillisecondsNow();
+    if(startTimeMilliseconds.length === 0){
+        console.log("No classes today!")
+
+        return 'noClasses';
+    }
 
     for(let i = 0; i < startTimeMilliseconds.length; i++){
         if (timeNow >= startTimeMilliseconds[i]){
             if (timeNow <= endTimeMilliseconds[i]){
                 console.log(`${schedToday[startTimeMilliseconds[i]].name} happening now.`)
-                break;
+                
+                return schedToday[startTimeMilliseconds[i]]; //returns the course happening atm
             }
             else{
                 if (i === (startTimeMilliseconds.length)-1){
                     console.log("No more classes today!")
-                    break;
+                    
+                    return "dayAlreadyDone"; //returns string dayAlreadyDone
                 }
             }
 
@@ -370,7 +378,13 @@ function getSubjectNow(schedArr){
         else{
             if (i > 0){
                 console.log("Break time!");
-                break;
+
+                return "breakTime"; //returns breakTime string
+            }
+            else{
+                console.log("Day about to start soon...");
+
+                return "dayAboutToStart"; //returns day about to start
             }
         }
     }
