@@ -4,6 +4,8 @@ let studentCollege = "";
 let studentCourse = "";
 
 
+
+
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js';
 
 //# NO TO AI SLOP 😝;
@@ -406,11 +408,9 @@ function getSubjectNow(schedArr){
 
 }
 
-function change(){
-    const openingScreen = document.getElementById('openingScreen');
 
-    openingScreen.classList.toggle('color-change');
-}
+
+
 
 
 

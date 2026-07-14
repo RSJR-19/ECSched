@@ -29,8 +29,22 @@ input {
     background: #000000f1;
     position: absolute;
 
-    transition: all 2s ease-in-out;
+    transition: all 1.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.logo-pic{
+    width: 70%;
+    aspect-ratio: 1/1;
+    opacity: 0;
+
+    transition: all 0.5s ease-in-out;
+}
+
+.logo-pic.reveal{
+    opacity: 1;
 }
 
 .opening-screen.color-change{
