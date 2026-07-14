@@ -17,3 +17,9 @@ Extracted:
 Improvements:
 change the logic for extracting student name, course, year, college, schedule, to not be dependent on hard coded numbers.
 
+
+
+LOCAL STORAGE 
+= studentDetails - array containg [studentName, studentCourse, studentYearLevel, studentCollege]
+
+= weekdays - schedules for the week

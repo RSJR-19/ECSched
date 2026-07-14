@@ -21,6 +21,8 @@ img {
 button,
 input {
     font: inherit;
+    position: absolute;
+    z-index: 9999;
 }
 
 .opening-screen{

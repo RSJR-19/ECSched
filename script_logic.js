@@ -3,9 +3,9 @@ let studentYearLevel = "";
 let studentCollege = "";
 let studentCourse = "";
 
+const extractBtn = document.getElementById('extractBtn');
 
-
-
+extractBtn.addEventListener('click', ()=> extractText());
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js';
 
 //# NO TO AI SLOP 😝;
@@ -41,7 +41,10 @@ async function extractText(){ //Function triggered when Extract me button is cli
             studentYearLevel = getStudentYearLevel(textContent); //gets the section of the student;
             studentCollege = getStudentCollege(textContent); //gets the college of the student;
 
-            
+            let studentDetails = [studentName, studentCourse, studentYearLevel, studentCollege]; // for storing in Local Storage
+
+            localStorage.setItem('studentDetails', JSON.stringify(studentDetails)); //store details to lcalStorage;
+
             let textContentCleaned = cleanTextContent(textContent); //array of objects per line, removed ung spaces/empty lang.
 
             let extractedSched = extractSchedule(textContentCleaned);// removed unnecessary parts/kept schedule details.
@@ -66,6 +69,8 @@ function getScheduleDetails(cleanedSchedule){
         //name = name of course, code = course code, schedules = array of course schedules
         
         let weekdays = groupByDay(processedCourseObjects); //returns array grouped by days of the week, [Course instance, time, room];
+
+        localStorage.setItem('weekdays', JSON.stringify(weekdays)); //saves the weekdays array in the local Storage.
 
         let schedToday = checkSchedToday(weekdays);
         //[0]returns dict containing starting miliseconds as keys and courses object as values.
@@ -408,6 +413,28 @@ function getSubjectNow(schedArr){
 
 }
 
+
+export function checkLocalStorage(){
+    try{
+    let studentDetails = JSON.parse(localStorage.getItem('studentDetails'));
+
+    let weekdays = JSON.parse(localStorage.getItem('weekdays'));
+
+    if (studentDetails && weekdays){
+        let schedToday = checkSchedToday(weekdays);
+        let currentState = getSubjectNow(schedToday);
+
+        return [studentDetails, weekdays];
+    }
+
+    }
+    catch(err){
+        console.error(err);
+        alert('Something went wrong.');
+        return;
+    }
+
+}
 
 
 
