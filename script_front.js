@@ -23,6 +23,6 @@ openingScreen.addEventListener('transitionend', ()=>{
             }
         }, 100);
     }, 50);
-});
+}, {once: true});
 
 

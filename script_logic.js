@@ -423,10 +423,9 @@ export function checkLocalStorage(){
     if (studentDetails && weekdays){
         let schedToday = checkSchedToday(weekdays);
         let currentState = getSubjectNow(schedToday);
-
+        
         return [studentDetails, weekdays];
     }
-
     }
     catch(err){
         console.error(err);
