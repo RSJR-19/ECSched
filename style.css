@@ -23,6 +23,11 @@ input {
     font: inherit;
     position: absolute;
     z-index: 9999;
+    margin: 12px;
+}
+
+#extractBtn{
+    margin: 50px;
 }
 
 .opening-screen{
@@ -38,9 +43,12 @@ input {
 }
 
 .logo-pic{
-    width: 70%;
-    aspect-ratio: 1/1;
     opacity: 0;
+    transform: translateY(0%);
+    padding: 0;
+    height: 50%;
+    width: 100%;
+    
 
     transition: all 0.5s ease-in-out;
 }
@@ -48,6 +56,8 @@ input {
 .logo-pic.reveal{
     opacity: 1;
 }
+
+
 
 .opening-screen.color-change{
     background: rgba(255, 255, 255, 0.897);

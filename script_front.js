@@ -18,11 +18,21 @@ openingScreen.addEventListener('transitionend', ()=>{
         setTimeout(()=>{
             let savedItems = checkLocalStorage();
 
-            if(savedItems){
-                console.log(savedItems[0], savedItems[1]);
+            if(!savedItems){
+                displayUploadMenu();
+            }
+            else{
+                alert("Welcome back, USer!")
             }
         }, 100);
     }, 50);
 }, {once: true});
 
+
+function displayUploadMenu(){
+    setTimeout(()=>{
+
+    },200);
+
+}
 
