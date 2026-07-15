@@ -53,16 +53,17 @@ input {
     transition: all 0.5s ease-in-out;
 }
 
-.upload-box{
+.opening-box{
     height: 0vh;
     width: 0vw;
     border-radius: 15px;
-    border: 5px rgba(0, 0, 0, 0.811) solid;
+    border: 5px rgba(0, 0, 0, 0.811) dashed;
     background-color: white;
     display: flex;
 
     opacity: 0;
     visibility: hidden;
+    overflow: hidden;
 
 }
 
@@ -70,9 +71,24 @@ input {
     opacity: 1;
 }
 
-.upload-box.reveal{
+.opening-box.reveal{
     animation: reveal 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
+
+.upload-menu, .return-menu{
+    height: 100%;
+    width: 100%;
+    background-color: yellow;
+    display: none;
+    opacity: 0;
+    flex-direction: column;
+
+    transition: all 0.5s ease-in-out;
+}
+
+
+
+
 
 @keyframes reveal{
     0%{
@@ -96,3 +112,9 @@ input {
 .opening-screen.color-change{
     background: rgba(255, 255, 255, 0.897);
 }
+
+.upload-menu.reveal, .return-menu.reveal{
+    opacity: 1;
+}
+
+
