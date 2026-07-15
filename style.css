@@ -46,8 +46,9 @@ input {
     opacity: 0;
     transform: translateY(0%);
     padding: 0;
-    height: 50%;
-    width: 100%;
+    width: 50%;
+
+
     
 
     transition: all 0.5s ease-in-out;
