@@ -94,11 +94,32 @@ input {
     align-items: center;
 }
 
-.upload-menu h1{
-    font-size: 50px;
-    padding: 0;
-   
+.upload-text-box{
+    height: 100%;
+    width: 100%;
+    pointer-events: all;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
 }
+
+.upload-logo{
+    height: 70%;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-text-box span{
+    color: rgba(0, 0, 0, 0.811);
+    font-weight: bold;
+    font-size: max(2cqh, 2cqw);
+}
+
 
 .file-input{
     background-color: red;

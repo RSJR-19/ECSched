@@ -4,18 +4,24 @@ let studentCollege = "";
 let studentCourse = "";
 
 const extractBtn = document.getElementById('extractBtn');
+const fileInput = document.getElementById('fileInput');
 
 extractBtn.addEventListener('click', ()=> extractText());
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js';
 
+
+fileInput.addEventListener('change', ()=> extractText());
+
 //# NO TO AI SLOP 😝;
 //# NO TO AI SLOP 😝;
 //# NO TO AI SLOP 😝;
 //# NO TO AI SLOP 😝;
 //# NO TO AI SLOP 😝;
 
+
+
 async function extractText(){ //Function triggered when Extract me button is clicked, mainly for extracting schedule details from pdf.
-    const fileInput = document.getElementById('fileInput');
+    alert('working')
     const file = fileInput.files[0];
 
     if (!file){
