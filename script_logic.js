@@ -46,7 +46,7 @@ async function extractText(){ //Function triggered when Extract me button is cli
             studentYearLevel = getStudentYearLevel(textContent); //gets the section of the student;
             studentCollege = getStudentCollege(textContent); //gets the college of the student;
 
-            let studentDetails = [studentName, studentCourse, studentYearLevel, studentCollege]; // for storing in Local Storage
+            let studentDetails = [studentName, studentYearLevel, studentCollege, studentCourse]; // for storing in Local Storage
 
             localStorage.setItem('studentDetails', JSON.stringify(studentDetails)); //store details to lcalStorage;
 

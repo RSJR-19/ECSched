@@ -12,6 +12,8 @@ const fileInput = document.getElementById('fileInput');
 
 const welcomeBackP = document.getElementById('welcomeBackP');
 
+const welcomeScreen = document.getElementById('welcomeScreen');
+
 let savedItems = checkLocalStorage();
 
 let weekdays = "";
@@ -27,6 +29,7 @@ window.addEventListener('load', ()=>{
         }
         else{
             openingBox.style.border = "5px rgba(0, 0, 0, 0.811) dashed";
+            fileInput.style.display = 'flex';
         }
     }, 700);
 })
@@ -53,6 +56,21 @@ openingScreen.addEventListener('transitionend', ()=>{
     }, 50);
 }, {once: true});
 
+fileInput.addEventListener('change', ()=>{
+    setTimeout(()=>{
+        [studentDetails, weekdays] = checkLocalStorage();
+        if (studentDetails){
+            welcomeScreen.classList.add('reveal');
+            console.log(studentDetails)
+
+        }
+    }, 1000)
+
+});
+
+welcomeScreen.addEventListener('transitionend', ()=>{
+    displayWelcomeScreenText();
+}, {once: true});
 
 function getFirstName(){
     let name = studentDetails[0];
@@ -80,4 +98,35 @@ function displayReturnMenu(){
     setTimeout(()=>{
         returnMenu.classList.add("reveal");
     },100);
+}
+
+function displayWelcomeScreenText(){
+    let studentWelcomeDetails = ["WELCOME,", ...studentDetails];
+
+    let i = 0;
+
+    let textInterval = setInterval(()=>{
+        let text = document.createElement('p');
+        text.textContent = studentWelcomeDetails[i];
+        text.className = "welcome-screen-p";
+
+        welcomeScreen.appendChild(text);
+        setTimeout(()=>{
+           
+            let appendText = document.getElementsByClassName("welcome-screen-p")[i];
+
+            appendText.classList.add('reveal');
+        }, 100);
+
+
+        if(i === 5){
+            clearInterval(textInterval);
+        }
+        else{
+            i++;
+        }
+
+    }, 1000)
+    
+    
 }
