@@ -84,6 +84,8 @@ function getScheduleDetails(cleanedSchedule){
 
         let currentState = getSubjectNow(schedToday); //returns course object if there's an ongoing class. returns 'dayAlreadyDone' if all classes already done. returns 'breakTime' if during breakTime/ free time. returns 'dayAboutToStart' if day only about to start. returns 'noClasses' if walang pasok.
 
+
+
     }
     catch(err){
         console.log("something's wrong - I can feel it.");
@@ -312,7 +314,7 @@ function groupByDay(courses){
     return WEEK;
 }
 
-function checkSchedToday(sched){
+export function checkSchedToday(sched){
     const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
     const dayToday = days[2];//ORIGINAL!!: days[new Date().getDay()];// FOR TESTING ONLY CHANGE BACK LATER!!!!!!
@@ -374,7 +376,14 @@ function parseToMilliseconds(dateTime){ //dateTime : time nung sched (example: 1
     return Date.parse(joined);
 }
 
-function getSubjectNow(schedArr){
+export function millisecondsToTime(ms){
+    const date = new Date(ms);
+
+    return new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric', minute: '2-digit', hour12: true}).format(date);
+}
+
+export function getSubjectNow(schedArr){
 
     let [schedToday, startTimeMilliseconds, endTimeMilliseconds] = schedArr;
 
@@ -417,7 +426,6 @@ function getSubjectNow(schedArr){
     }
 
 }
-
 
 export function checkLocalStorage(){
     try{

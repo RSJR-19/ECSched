@@ -1,4 +1,4 @@
-import { checkLocalStorage } from "./script_logic.js";
+import { checkLocalStorage, millisecondsToTime, getSubjectNow, checkSchedToday } from "./script_logic.js";
 
 const openingScreen = document.getElementById('openingScreen');
 const logo = document.getElementById('logo');
@@ -13,11 +13,18 @@ const fileInput = document.getElementById('fileInput');
 const welcomeBackP = document.getElementById('welcomeBackP');
 
 const welcomeScreen = document.getElementById('welcomeScreen');
+const dayScreen = document.getElementById('dayScreen');
+const dayScreenDay = document.getElementById('dayScreenDay');
+const dayScreenTime = document.getElementById('dayScreenTime');
 
 let savedItems = checkLocalStorage();
 
 let weekdays = "";
 let studentDetails = "";
+
+let schedToday = "";
+
+let currentState;
 
 
 window.addEventListener('load', ()=>{
@@ -50,7 +57,7 @@ openingScreen.addEventListener('transitionend', ()=>{
                 let firstName = getFirstName();
                 welcomeBackP.innerHTML = `Welcome back, ${firstName}`;
 
-
+                schedToday = checkSchedToday(weekdays);
             }
         }, 1000);
     }, 50);
@@ -61,7 +68,9 @@ fileInput.addEventListener('change', ()=>{
         [studentDetails, weekdays] = checkLocalStorage();
         if (studentDetails){
             welcomeScreen.classList.add('reveal');
-            console.log(studentDetails)
+            console.log(studentDetails);
+
+            schedToday = checkSchedToday(weekdays);
 
         }
     }, 1000)
@@ -121,12 +130,39 @@ function displayWelcomeScreenText(){
 
         if(i === 5){
             clearInterval(textInterval);
+            setTimeout(()=>{
+                [...document.getElementsByClassName('welcome-screen-p')].forEach(text =>{text.classList.remove('reveal')});
+
+                displayDayScreen();
+            }, 500);
         }
         else{
             i++;
         }
 
-    }, 1000)
-    
+    }, 900)
+}
+
+function displayDayScreen(){
+    const DAYS = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+
+    setTimeout(()=>{
+        if(schedToday[1].length === 0){
+            dayScreenTime.textContent = "No Classes Today.";
+        }
+        else{
+        console.log(schedToday[1][1])
+        let timeStart = millisecondsToTime(schedToday[1][1]);
+
+        let timeEnd = millisecondsToTime(schedToday[2][schedToday[2].length - 1]);
+
+        dayScreenTime.innerHTML = `${timeStart} - ${timeEnd}`;
+        }
+
+        dayScreenDay.innerHTML = DAYS[new Date().getDay()];
+
+        dayScreen.classList.add('reveal');
+
+    }, 1300);
     
 }
