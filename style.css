@@ -60,10 +60,11 @@ input {
     border: 5px rgba(0, 0, 0, 0.811) dashed;
     background-color: white;
     display: flex;
-
+    position: relative;
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
+     box-shadow: gray 0px 3px 10px 0px;
 }
 
 .logo-pic.reveal{
@@ -134,7 +135,60 @@ input {
 
 .return-menu{
     background-color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
 }
+
+.welcome-textbox{
+    height: 60%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#welcomeBackP{
+    font-size: max(3qh, 3qw);
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.811);
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+    padding: 10px;
+}
+
+#scheduleBtn{
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.811);
+    color: white;
+    border: none;
+    box-shadow: gray 0px 3px 10px 0px;
+    transform: translateY(0);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+}
+
+#welcomeScreen{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: green;
+    z-index: 20;
+    top: 100%;
+}
+
+#welcomeScreen
+
+#scheduleBtn:active{
+    box-shadow: gray 0px 2px 4px 0px;
+    transform: translateY(3px);
+}
+
 
 
 @keyframes reveal{

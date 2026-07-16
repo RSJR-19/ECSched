@@ -21,7 +21,6 @@ fileInput.addEventListener('change', ()=> extractText());
 
 
 async function extractText(){ //Function triggered when Extract me button is clicked, mainly for extracting schedule details from pdf.
-    alert('working')
     const file = fileInput.files[0];
 
     if (!file){
@@ -442,6 +441,18 @@ export function checkLocalStorage(){
 }
 
 
+
+function getFirstName(){
+    let name = studentDetails[0];
+    let nameWithoutSurname = (name.split(","))[1].trim();
+    let firstName = capitalizeFormat((nameWithoutSurname.split(" "))[0]);
+
+    return firstName;
+}
+
+function capitalizeFormat(word){
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
 
 
 

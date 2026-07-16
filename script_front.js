@@ -8,7 +8,15 @@ const returnMenu = document.getElementById('returnMenu');
 
 const extractBtn = document.getElementById('extractBtn');
 
+const fileInput = document.getElementById('fileInput');
+
+const welcomeBackP = document.getElementById('welcomeBackP');
+
 let savedItems = checkLocalStorage();
+
+let weekdays = "";
+let studentDetails = "";
+
 
 window.addEventListener('load', ()=>{
     setTimeout(()=>{
@@ -34,11 +42,30 @@ openingScreen.addEventListener('transitionend', ()=>{
                 displayUploadMenu();
             }
             else{
+                [studentDetails, weekdays] = savedItems;
                 displayReturnMenu();
+                let firstName = getFirstName();
+                welcomeBackP.innerHTML = `Welcome back, ${firstName}`;
+
+
             }
         }, 1000);
     }, 50);
 }, {once: true});
+
+
+function getFirstName(){
+    let name = studentDetails[0];
+    let nameWithoutSurname = (name.split(","))[1].trim();
+    let firstName = capitalizeFormat((nameWithoutSurname.split(" "))[0]);
+
+    return firstName;
+}
+
+
+function capitalizeFormat(word){
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
 
 
 function displayUploadMenu(){
