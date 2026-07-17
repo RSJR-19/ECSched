@@ -184,7 +184,8 @@ function displayDayScreen(){
     
 };
 
-dayScreen.addEventListener('transitionend', ()=>{
+dayScreen.addEventListener('click', ()=>{
+    dayScreen.style.pointerEvents = "none";
     setTimeout(()=>{
         dayScreen.classList.remove("reveal");
         setTimeout(()=>{
@@ -192,5 +193,12 @@ dayScreen.addEventListener('transitionend', ()=>{
             welcomeScreen.classList.add('fadeOut');
         }, 700);
 
-    }, 700);
+    }, 200);
+})
+
+dayScreen.addEventListener('transitionend', ()=>{
+    setTimeout(()=>{
+        dayScreen.style.pointerEvents = "auto";
+    }, 500);
+    
 }, {once: true});

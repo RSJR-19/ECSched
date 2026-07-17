@@ -160,6 +160,7 @@ input {
     padding: 10px;
 }
 
+
 #scheduleBtn{
     position: absolute;
     bottom: 0;
@@ -187,6 +188,32 @@ input {
     flex-direction: column;
 
     transition: all 0.7s ease-in-out;
+}
+
+#contentScreen{
+    height: 100%;
+    width: 100%;
+    background-color: gray;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    opacity: 0;
+    display: none;
+}
+
+.header{
+    height: 10%;
+    width: 100%;
+    background-color: white;
+    border-bottom: 5px rgba(0, 0, 0, 0.811) solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.header-logo{
+    height: max(5cqw, 5cqh);
 }
 
 #welcomeScreen.reveal{
@@ -222,12 +249,19 @@ input {
     justify-content: center;
     align-items: center;
     opacity: 0;
+    pointer-events: none;
 
     transition: all 0.5s ease-in-out;
 }
 
-#dayScreen p{
+#dayScreenDay, #dayScreenTime{
     font-size: max(2.5cqw, 2.5cqh);
+    color: white;
+}
+
+.continue-p{
+    position: absolute;
+    bottom: 5%;
     color: white;
 }
 
