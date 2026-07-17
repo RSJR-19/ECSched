@@ -83,6 +83,7 @@ fileInput.addEventListener('change', ()=>{
 });
 
 welcomeScreen.addEventListener('transitionend', ()=>{
+    openingScreen.style.display = "none";
     if (!oldUserLogged){
         displayWelcomeScreenText();
     }
@@ -181,4 +182,15 @@ function displayDayScreen(){
 
     }, 1300);
     
-}
+};
+
+dayScreen.addEventListener('transitionend', ()=>{
+    setTimeout(()=>{
+        dayScreen.classList.remove("reveal");
+        setTimeout(()=>{
+            dayScreen.style.display = "none";
+            welcomeScreen.classList.add('fadeOut');
+        }, 700);
+
+    }, 700);
+}, {once: true});

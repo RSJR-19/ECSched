@@ -235,6 +235,12 @@ input {
     opacity: 1;
 }
 
+#welcomeScreen.fadeOut{
+    background: rgba(255, 255, 255, 0.897);
+}
+
+
+
 @keyframes reveal{
     0%{
         visibility: visible;
