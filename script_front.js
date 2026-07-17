@@ -17,6 +17,8 @@ const dayScreen = document.getElementById('dayScreen');
 const dayScreenDay = document.getElementById('dayScreenDay');
 const dayScreenTime = document.getElementById('dayScreenTime');
 
+const scheduleBtn = document.getElementById('scheduleBtn');
+
 let savedItems = checkLocalStorage();
 
 let weekdays = "";
@@ -25,6 +27,9 @@ let studentDetails = "";
 let schedToday = "";
 
 let currentState;
+
+//flags
+let oldUserLogged = false;
 
 
 window.addEventListener('load', ()=>{
@@ -78,8 +83,20 @@ fileInput.addEventListener('change', ()=>{
 });
 
 welcomeScreen.addEventListener('transitionend', ()=>{
-    displayWelcomeScreenText();
+    if (!oldUserLogged){
+        displayWelcomeScreenText();
+    }
+    else{
+            displayDayScreen();
+    };
 }, {once: true});
+
+scheduleBtn.addEventListener('click', ()=>{
+    setTimeout(()=>{
+        oldUserLogged = true;
+        welcomeScreen.classList.add('reveal');
+    }, 600);
+});
 
 function getFirstName(){
     let name = studentDetails[0];
@@ -151,8 +168,7 @@ function displayDayScreen(){
             dayScreenTime.textContent = "No Classes Today.";
         }
         else{
-        console.log(schedToday[1][1])
-        let timeStart = millisecondsToTime(schedToday[1][1]);
+        let timeStart = millisecondsToTime(schedToday[1][0]);
 
         let timeEnd = millisecondsToTime(schedToday[2][schedToday[2].length - 1]);
 
