@@ -197,7 +197,7 @@ input {
     display: flex;
     flex-direction: column;
     position: absolute;
-    opacity: 0;
+    opacity: 1;
     display: none;
 }
 
@@ -214,6 +214,25 @@ input {
 
 .header-logo{
     height: max(5cqw, 5cqh);
+}
+
+.main-content-body{
+    background-color: yellow;
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#beforeClassScreen{
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #welcomeScreen.reveal{
@@ -263,6 +282,7 @@ input {
     position: absolute;
     bottom: 5%;
     color: white;
+    font-size: max(2cqw, 2cqh);
 }
 
 #dayScreen.reveal{

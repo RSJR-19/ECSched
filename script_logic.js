@@ -418,7 +418,7 @@ export function getSubjectNow(schedArr){
                 return "breakTime"; //returns breakTime string
             }
             else{
-                console.log("Day about to start soon...");
+                getBeforeClassDetails(schedArr);
 
                 return "dayAboutToStart"; //returns day about to start
             }
@@ -462,6 +462,59 @@ function capitalizeFormat(word){
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
+function getBeforeClassDetails(schedArr){
+    let [schedToday, startTimeMilliseconds, endTimeMilliseconds] = schedArr;
+    console.log(schedArr);
 
+    let firstClassName = schedToday[startTimeMilliseconds[0]]['name'];
+    let room = getClassroom(schedToday[startTimeMilliseconds[0]]['schedules']);
+    let timeDurationRoom = `${millisecondsToTime(startTimeMilliseconds[0])} - ${millisecondsToTime(endTimeMilliseconds[0])} | `;
+    console.log(room)
 
+    let timeLeft = startTimeMilliseconds[0] - Date.parse("july 17, 2026 5:34 AM"); //ORIGINAL: getMillisecondsNow()
 
+    return [firstClassName, timeDurationRoom, timeLeft]
+
+    console.log(firstClassName);
+    console.log(timeDuration);
+    console.log(timeLeft);
+    console.log(millisecondsToHoursMinutes(timeLeft))
+    
+}
+
+function millisecondsToHoursMinutes(ms){
+    let hours = Math.floor(ms / 3600000);
+    let minutes = Math.floor((ms % 3600000) / 60000);
+
+    if (!hours){
+        if (minutes <= 1){
+            return '1 min'
+        }
+        else{
+            return `${minutes} mins`;
+        }
+    }
+    else{
+        return `${hours} hr and ${String(minutes).padStart(2, '0')} mins`;
+    }
+}
+
+function getClassroom(scheduleArr){
+    console.log(scheduleArr)
+    const date = new Date();
+
+    const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+    const today = DAYS[date.getDay()];
+    scheduleArr.forEach(schedule=>{
+        console.log(schedule)
+        let splitted = schedule.split("|");
+        let room = splitted[2].trim();
+        let day = splitted[0].trim();
+        console.log(day)
+        console.log(today)
+        if(day == today){
+            return room
+        }
+    })
+};

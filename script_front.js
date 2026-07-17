@@ -28,6 +28,12 @@ let schedToday = "";
 
 let currentState;
 
+//beforeClassScreen 
+const beforeClassScreen = document.getElementById('beforeClassScreen');
+const classNameLabel = document.getElementById('classNameLabel');
+const timeRoomLabel = document.getElementById('timeRoomLabel');
+const timerLabel = document.getElementById('timerLabel');
+
 //flags
 let oldUserLogged = false;
 
@@ -202,3 +208,7 @@ dayScreen.addEventListener('transitionend', ()=>{
     }, 500);
     
 }, {once: true});
+
+function displayBeforeClassScreen(){
+    
+}
