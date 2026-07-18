@@ -91,8 +91,6 @@ function getScheduleDetails(cleanedSchedule){
 
         //let currentState = getSubjectNow(schedToday); returns course object if there's an ongoing class. returns 'dayAlreadyDone' if all classes already done. returns 'breakTime' if during breakTime/ free time. returns 'dayAboutToStart' if day only about to start. returns 'noClasses' if walang pasok.
 
-
-
     }
     catch(err){
         console.log("something's wrong - I can feel it.");
@@ -102,72 +100,46 @@ function getScheduleDetails(cleanedSchedule){
 }
 
 function getStudentName(textContent){ //function for extracting student name. returns fail if cannot be found.
-    try{
     let nameLine = textContent.items[12].str;
     if (!nameLine.includes("STUDENT NAME : ")){
         throw new Error("detailsError - Name");
     }
-    nameLine = nameLine.replace("STUDENT NAME : ", "");
-    nameLine = nameLine.trim();
-    return nameLine;
+
+    return nameLine.replace("STUDENT NAME : ", "").trim();
     }
-    catch(err){
-        console.error(err);
-        alert("Some details cannot be found");
-        return false;
-    }
-}
+
 
 function getStudentCourse(textContent){ //function for getting student course;
-    try{
     let courseLine = textContent.items[11].str;
-    if (!courseLine.includes("COURSE : ")){
+
+    if (!courseLine || !courseLine.includes("COURSE : ")){
         throw new Error("detailsError - Course");
     }
-    courseLine = courseLine.replace("COURSE : ", "");
-    courseLine = courseLine.trim();
-    return courseLine;
-    }
-    catch(err){
-        console.error(err);
-        alert("Some details cannot be found");
-        return false;
+    return courseLine.replace("COURSE : ", "").trim();
     }
 
-}
 
 function getStudentYearLevel(textContent){ // function for extracting student Year level;
-    try{
         let yearLine = textContent.items[15].str;
         if(!yearLine.includes("YEAR LEVEL : ")){
             throw new Error("detailsError - Year");
         }
+
         yearLine = yearLine.replace("YEAR LEVEL : ", "").trim().toUpperCase();
         return yearLine;
     }
-    catch(err){
-        console.error(err);
-        alert("Some details cannot be found");
-        return false;
-    }
-}
+
 
 function getStudentCollege(textContent){ //function for getting student college;
-    try{
         let collegeLine = textContent.items[14].str;
         if(!collegeLine.includes("COLLEGE : ")){
             throw new Error("detailsError - College");
         }
+
         collegeLine = collegeLine.replace("COLLEGE : ", "").trim().toUpperCase();
         return collegeLine;
     }
-    catch(err){
-        console.error(err);
-        alert("Some details cannot be found");
-        return false;
-    }
 
-}
 
 function cleanTextContent(textContent){
     textContent = textContent.items;

@@ -7,3 +7,4 @@ function clearData(){ //FOR TESTING ONLY//
 }
 
 clearBtn.addEventListener('click', ()=> clearData());
+
