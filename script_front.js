@@ -17,6 +17,8 @@ const dayScreen = document.getElementById('dayScreen');
 const dayScreenDay = document.getElementById('dayScreenDay');
 const dayScreenTime = document.getElementById('dayScreenTime');
 
+const contentScreen = document.getElementById('contentScreen');
+
 const scheduleBtn = document.getElementById('scheduleBtn');
 
 let savedItems = checkLocalStorage();
@@ -27,12 +29,6 @@ let studentDetails = "";
 let schedToday = "";
 
 let currentState;
-
-//beforeClassScreen 
-const beforeClassScreen = document.getElementById('beforeClassScreen');
-const classNameLabel = document.getElementById('classNameLabel');
-const timeRoomLabel = document.getElementById('timeRoomLabel');
-const timerLabel = document.getElementById('timerLabel');
 
 //flags
 let oldUserLogged = false;
@@ -205,10 +201,8 @@ dayScreen.addEventListener('click', ()=>{
 dayScreen.addEventListener('transitionend', ()=>{
     setTimeout(()=>{
         dayScreen.style.pointerEvents = "auto";
+        contentScreen.style.display = "flex";
     }, 500);
     
 }, {once: true});
 
-function displayBeforeClassScreen(){
-    
-}

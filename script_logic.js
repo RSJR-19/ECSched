@@ -1,3 +1,5 @@
+
+
 let studentName = "";
 let studentYearLevel = "";
 let studentCollege = "";
@@ -423,7 +425,9 @@ export function getSubjectNow(schedArr){
                 return "breakTime"; //returns breakTime string
             }
             else{
-                getBeforeClassDetails(schedArr);
+                let details = getBeforeClassDetails(schedArr);
+
+                displayBeforeClassScreen(details);
 
                 return "dayAboutToStart"; //returns day about to start
             }
@@ -482,14 +486,27 @@ function getBeforeClassDetails(schedArr){
     let timeDurationRoom = `${millisecondsToTime(startTimeMilliseconds[0])} - ${millisecondsToTime(endTimeMilliseconds[0])} | ${room} `;
     
 
-    let timeLeft = startTimeMilliseconds[0] - Date.parse("july 18, 2026 5:34 AM"); //ORIGINAL: getMillisecondsNow()
+    let timeLeft = millisecondsToHoursMinutes(startTimeMilliseconds[0] - Date.parse("july 18, 2026 5:34 AM")); //ORIGINAL: getMillisecondsNow()
 
-    console.log(firstClassName);
-    console.log(timeDurationRoom);
     console.log(timeLeft)
 
     return [firstClassName, timeDurationRoom, timeLeft]
     
+}
+
+//beforeClassScreen
+const beforeClassScreen = document.getElementById('beforeClassScreen');
+const classNameLabel = document.getElementById('classNameLabel');
+const timeRoomLabel = document.getElementById('timeRoomLabel');
+const timerLabel = document.getElementById('timerLabel');
+
+function displayBeforeClassScreen(details){
+    let [firstClassName, timeDurationRoom, timeLeft] = details;
+
+    beforeClassScreen.style.display = "flex";
+    classNameLabel.textContent = firstClassName;
+    timeRoomLabel.textContent = timeDurationRoom;
+    timerLabel.textContent = timeLeft;
 }
 
 function millisecondsToHoursMinutes(ms){
@@ -508,6 +525,7 @@ function millisecondsToHoursMinutes(ms){
         return `${hours} hr and ${String(minutes).padStart(2, '0')} mins`;
     }
 }
+
 
 function getClassroom(scheduleArr){
     console.log(scheduleArr)

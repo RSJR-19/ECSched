@@ -194,11 +194,11 @@ input {
     height: 100%;
     width: 100%;
     background-color: gray;
-    display: flex;
+    display: none;
     flex-direction: column;
     position: absolute;
     opacity: 1;
-    display: none;
+    z-index: 10;
 }
 
 .header{
@@ -291,6 +291,7 @@ input {
 
 #welcomeScreen.fadeOut{
     background: rgba(255, 255, 255, 0.897);
+    opacity: 0;
 }
 
 
