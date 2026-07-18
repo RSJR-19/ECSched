@@ -479,7 +479,6 @@ function capitalizeFormat(word){
 
 function getBeforeClassDetails(schedArr){
     let [schedToday, startTimeMilliseconds, endTimeMilliseconds] = schedArr;
-    console.log(schedArr);
 
     let firstClassName = schedToday[startTimeMilliseconds[0]]['name'];
     let room = getClassroom(schedToday[startTimeMilliseconds[0]]['schedules']);
@@ -487,8 +486,6 @@ function getBeforeClassDetails(schedArr){
     
 
     let timeLeft = millisecondsToHoursMinutes(startTimeMilliseconds[0] - Date.parse("july 18, 2026 5:34 AM")); //ORIGINAL: getMillisecondsNow()
-
-    console.log(timeLeft)
 
     return [firstClassName, timeDurationRoom, timeLeft]
     
@@ -528,7 +525,6 @@ function millisecondsToHoursMinutes(ms){
 
 
 function getClassroom(scheduleArr){
-    console.log(scheduleArr)
     const date = new Date();
 
     const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
