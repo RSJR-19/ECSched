@@ -3,6 +3,9 @@ let studentYearLevel = "";
 let studentCollege = "";
 let studentCourse = "";
 
+//flags:
+let initialInterval = false;
+
 const extractBtn = document.getElementById('extractBtn');
 const fileInput = document.getElementById('fileInput');
 
@@ -77,12 +80,14 @@ function getScheduleDetails(cleanedSchedule){
 
         localStorage.setItem('weekdays', JSON.stringify(weekdays)); //saves the weekdays array in the local Storage.
 
-        let schedToday = checkSchedToday(weekdays);
+        //checkLocalStorage();
+
+        //let schedToday = checkSchedToday(weekdays);
         //[0]returns dict containing starting miliseconds as keys and courses object as values.
         //[1] array ng mga startTime values naka sorted na
         //[2] array ng mga endTime values naka sorted na
 
-        let currentState = getSubjectNow(schedToday); //returns course object if there's an ongoing class. returns 'dayAlreadyDone' if all classes already done. returns 'breakTime' if during breakTime/ free time. returns 'dayAboutToStart' if day only about to start. returns 'noClasses' if walang pasok.
+        //let currentState = getSubjectNow(schedToday); returns course object if there's an ongoing class. returns 'dayAlreadyDone' if all classes already done. returns 'breakTime' if during breakTime/ free time. returns 'dayAboutToStart' if day only about to start. returns 'noClasses' if walang pasok.
 
 
 
@@ -315,9 +320,9 @@ function groupByDay(courses){
 }
 
 export function checkSchedToday(sched){
-    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-    const dayToday = days[2];//ORIGINAL!!: days[new Date().getDay()];// FOR TESTING ONLY CHANGE BACK LATER!!!!!!
+    const dayToday = days[6];//ORIGINAL!!: days[new Date().getDay()];// FOR TESTING ONLY CHANGE BACK LATER!!!!!!
 
     const schedToday = sched[dayToday];
 
@@ -387,7 +392,7 @@ export function getSubjectNow(schedArr){
 
     let [schedToday, startTimeMilliseconds, endTimeMilliseconds] = schedArr;
 
-    let timeNow = Date.parse("July 13, 2026 7:01 AM"); //ORIGINAL: CHANGE LATER!!! getMillisecondsNow();
+    let timeNow = Date.parse("July 18, 2026 6:59 AM"); //ORIGINAL: CHANGE LATER!!! getMillisecondsNow();
 
     if(startTimeMilliseconds.length === 0){
         console.log("No classes today!")
@@ -436,6 +441,14 @@ export function checkLocalStorage(){
     if (studentDetails && weekdays){
         let schedToday = checkSchedToday(weekdays);
         let currentState = getSubjectNow(schedToday);
+
+        if(!initialInterval){ //refreshes every minute
+            initialInterval = true;
+            setInterval(()=>{
+                getSubjectNow(schedToday);
+            }, 60000)
+
+        }
         
         return [studentDetails, weekdays];
     }
@@ -447,8 +460,6 @@ export function checkLocalStorage(){
     }
 
 }
-
-
 
 function getFirstName(){
     let name = studentDetails[0];
@@ -468,17 +479,16 @@ function getBeforeClassDetails(schedArr){
 
     let firstClassName = schedToday[startTimeMilliseconds[0]]['name'];
     let room = getClassroom(schedToday[startTimeMilliseconds[0]]['schedules']);
-    let timeDurationRoom = `${millisecondsToTime(startTimeMilliseconds[0])} - ${millisecondsToTime(endTimeMilliseconds[0])} | `;
-    console.log(room)
+    let timeDurationRoom = `${millisecondsToTime(startTimeMilliseconds[0])} - ${millisecondsToTime(endTimeMilliseconds[0])} | ${room} `;
+    
 
-    let timeLeft = startTimeMilliseconds[0] - Date.parse("july 17, 2026 5:34 AM"); //ORIGINAL: getMillisecondsNow()
-
-    return [firstClassName, timeDurationRoom, timeLeft]
+    let timeLeft = startTimeMilliseconds[0] - Date.parse("july 18, 2026 5:34 AM"); //ORIGINAL: getMillisecondsNow()
 
     console.log(firstClassName);
-    console.log(timeDuration);
-    console.log(timeLeft);
-    console.log(millisecondsToHoursMinutes(timeLeft))
+    console.log(timeDurationRoom);
+    console.log(timeLeft)
+
+    return [firstClassName, timeDurationRoom, timeLeft]
     
 }
 
@@ -506,15 +516,16 @@ function getClassroom(scheduleArr){
     const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
     const today = DAYS[date.getDay()];
-    scheduleArr.forEach(schedule=>{
-        console.log(schedule)
-        let splitted = schedule.split("|");
+    for (let i = 0; i < scheduleArr.length; i++){
+        let splitted = scheduleArr[i].split("|");
         let room = splitted[2].trim();
         let day = splitted[0].trim();
-        console.log(day)
-        console.log(today)
-        if(day == today){
+
+        if (day === today){
             return room
         }
-    })
+    }
+    
 };
+
+
